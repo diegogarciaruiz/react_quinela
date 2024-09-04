@@ -92,6 +92,7 @@ const QuinielaController = {
   async getQuiniela(req, res) {
     try {
       const { usuarioId } = req.params;
+      console.log("useruaio", usuarioId);
 
       const user = await Usuario.findByPk(usuarioId);
       if (!user) {

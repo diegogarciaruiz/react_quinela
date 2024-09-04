@@ -22,9 +22,13 @@ async function seedDb() {
       { id: 2, username: "Pau", email: "pau@pau.com" },
     ];
 
+    // eliminar registros anterios
+    await Jornada.destroy({ where: {} });
+    await Usuario.destroy({ where: {} });
+
     // Usar bulkCreate para insertar múltiples jornadas de una sola vez
     await Jornada.bulkCreate(jornadas);
-    await Jornada.bulkCreate(usuarios);
+    await Usuario.bulkCreate(usuarios);
 
     console.log("Seed data inserted successfully.");
     process.exit(0); // Termina el proceso después de la inserción
