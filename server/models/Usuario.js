@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    "user",
+  const Usuario = sequelize.define(
+    "Usuario",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -16,12 +16,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
     },
-    {}
+    {
+      tableName: "usuario",
+    }
   );
 
-  User.associate = function (models) {
-    User.hasMany(models.Quiniela, { foreignKey: "userId" });
+  Usuario.associate = function (models) {
+    Usuario.hasMany(models.Quiniela, { foreignKey: "usuarioId" });
   };
 
-  return User;
+  return Usuario;
 };

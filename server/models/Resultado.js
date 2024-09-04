@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Result = sequelize.define(
-    "result",
+    "resultado",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "jornadas",
+          model: "jornada",
           key: "id",
         },
       },
@@ -40,7 +40,9 @@ module.exports = (sequelize, DataTypes) => {
       homeScore5: DataTypes.INTEGER,
       awayScore5: DataTypes.INTEGER,
     },
-    {}
+    {
+      tableName: "resultado",
+    }
   );
 
   Result.associate = function (models) {

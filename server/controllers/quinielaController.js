@@ -1,12 +1,12 @@
-const QuinielaModel = require("../models/Quiniela");
-const UserModel = require("../models/Usuario");
-const JornadaModel = require("../models/Jornada");
+const { Quiniela } = require("../db/db");
+const { Usuario } = require("../db/db");
+const { Jornada } = require("../db/db");
 
 const QuinielaController = {
   async createQuiniela(req, res) {
     try {
       const {
-        userId,
+        usuarioId,
         jornadaId, // Extraemos la jornada del cuerpo de la solicitud
         homeTeam1,
         awayTeam1,
@@ -31,21 +31,21 @@ const QuinielaController = {
       } = req.body;
 
       // Verificar si el usuario existe
-      const user = await UserModel.findByPk(userId);
+      const user = await Usuario.findByPk(usuarioId);
       if (!user) {
         return res.status(404).json({ message: "Usuario no encontrado" });
       }
 
       // Verificar si la jornada existe? Debería estar creada previamente en la db
-      // const jornada = await JornadaModel.findByPk(jornadaId);
+      // const jornada = await Jornada.findByPk(jornadaId);
       // if (!jornada) {
       //   return res.status(404).json({ message: "Jornada no encontrada" });
       // }
 
       // Verificar si el usuario ya envió una quiniela para esta jornada? De momento lo dejo comentado
 
-      // const existingQuiniela = await QuinielaModel.findOne({
-      //   where: { userId, jornadaId },
+      // const existingQuiniela = await Quiniela.findOne({
+      //   where: { usuarioId, jornadaId },
       // });
       // if (existingQuiniela) {
       //   return res
@@ -54,8 +54,8 @@ const QuinielaController = {
       // }
 
       // Crear la quiniela
-      const quiniela = await QuinielaModel.create({
-        userId,
+      const quiniela = await Quiniela.create({
+        usuarioId,
         jornadaId, // Asociamos la quiniela con la jornada
         homeTeam1,
         awayTeam1,
@@ -91,14 +91,14 @@ const QuinielaController = {
 
   async getQuiniela(req, res) {
     try {
-      const { userId } = req.params;
+      const { usuarioId } = req.params;
 
-      const user = await UserModel.findByPk(userId);
+      const user = await Usuario.findByPk(usuarioId);
       if (!user) {
         return res.status(404).json({ message: "Usuario no encontrado" });
       }
 
-      const quiniela = await QuinielaModel.findOne({ where: { userId } });
+      const quiniela = await Quiniela.findOne({ where: { usuarioId } });
       if (!quiniela) {
         return res
           .status(404)

@@ -1,5 +1,5 @@
 const express = require("express");
-import QuinielaController from "../controllers/quinielaController";
+const QuinielaController = require("../controllers/quinielaController");
 
 const router = express.Router();
 

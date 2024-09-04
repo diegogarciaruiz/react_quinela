@@ -7,11 +7,11 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      userId: {
+      usuarioId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "users",
+          model: "usuario",
           key: "id",
         },
       },
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false, // La quiniela está asociada a una jornada específica
         references: {
-          model: "jornadas", // Relación con el modelo "Jornada"
+          model: "jornada", // Relación con el modelo "Jornada"
           key: "id",
         },
       },
@@ -54,11 +54,13 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.NOW,
       },
     },
-    {}
+    {
+      tableName: "quiniela",
+    }
   );
 
   Quiniela.associate = function (models) {
-    Quiniela.belongsTo(models.User, { foreignKey: "userId" });
+    Quiniela.belongsTo(models.User, { foreignKey: "usuarioId" });
     Quiniela.belongsTo(models.Jornada, { foreignKey: "jornadaId" }); // Relación con una jornada
   };
 

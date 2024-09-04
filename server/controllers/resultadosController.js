@@ -1,11 +1,11 @@
-const ResultModel = require("../models/Result");
-const JornadaModel = require("../models/Jornada");
+const { Resultado } = require("../db/db");
+const { Jornada } = require("../db/db");
 
 const ResultController = {
   async createResult(req, res) {
     try {
       const {
-        jornadaId, // Jornada a la que pertenecen los resultados
+        jornadaId, // Jornada a la que pertenecen los resultados, debe estar creada previamente en la db
         homeTeam1,
         awayTeam1,
         homeScore1,
@@ -28,13 +28,13 @@ const ResultController = {
         awayScore5,
       } = req.body;
 
-      const jornada = await JornadaModel.findByPk(jornadaId);
+      const jornada = await Jornada.findByPk(jornadaId);
       if (!jornada) {
         return res.status(404).json({ message: "Jornada no encontrada" });
       }
 
       // Crear los resultados para la jornada
-      const result = await ResultModel.create({
+      const result = await Resultado.create({
         jornadaId,
         homeTeam1,
         awayTeam1,
@@ -62,12 +62,10 @@ const ResultController = {
         .status(201)
         .json({ message: "Resultados creados con éxito", data: result });
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          message: "Error al crear los resultados",
-          error: error.message,
-        });
+      res.status(500).json({
+        message: "Error al crear los resultados",
+        error: error.message,
+      });
     }
   },
 
@@ -75,7 +73,7 @@ const ResultController = {
     try {
       const { jornadaId } = req.params;
 
-      const result = await ResultModel.findOne({ where: { jornadaId } });
+      const result = await Resultado.findOne({ where: { jornadaId } });
       if (!result) {
         return res
           .status(404)
@@ -84,12 +82,10 @@ const ResultController = {
 
       res.status(200).json({ message: "Resultados encontrados", data: result });
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          message: "Error al obtener los resultados",
-          error: error.message,
-        });
+      res.status(500).json({
+        message: "Error al obtener los resultados",
+        error: error.message,
+      });
     }
   },
 };
