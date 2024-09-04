@@ -1,14 +1,27 @@
-const pool = require('../db/db');
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define(
+    "user",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {}
+  );
 
-const UserModel = {
-  async createUser(name, email) {
-    const [rows] = await pool.query('INSERT INTO users (name, email) VALUES (?, ?)', [name, email]);
-    return rows;
-  },
-  async getUserById(id) {
-    const [rows] = await pool.query('SELECT * FROM users WHERE user_id = ?', [id]);
-    return rows[0];
-  }
+  User.associate = function (models) {
+    User.hasMany(models.Quiniela, { foreignKey: "userId" });
+  };
+
+  return User;
 };
-
-module.exports = UserModel;
