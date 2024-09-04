@@ -43,5 +43,9 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
 
+  Result.associate = function (models) {
+    Result.hasMany(models.Quiniela, { foreignKey: "resultId" }); // Relación con las quinielas
+  };
+
   return Result;
 };
