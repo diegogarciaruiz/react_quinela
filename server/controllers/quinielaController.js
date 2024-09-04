@@ -1,11 +1,13 @@
 const QuinielaModel = require("../models/Quiniela");
-const UserModel = require("../models/User");
+const UserModel = require("../models/Usuario");
+const JornadaModel = require("../models/Jornada");
 
 const QuinielaController = {
   async createQuiniela(req, res) {
     try {
       const {
         userId,
+        jornadaId, // Extraemos la jornada del cuerpo de la solicitud
         homeTeam1,
         awayTeam1,
         homeScorePrediction1,
@@ -28,13 +30,33 @@ const QuinielaController = {
         awayScorePrediction5,
       } = req.body;
 
+      // Verificar si el usuario existe
       const user = await UserModel.findByPk(userId);
       if (!user) {
         return res.status(404).json({ message: "Usuario no encontrado" });
       }
 
+      // Verificar si la jornada existe? Debería estar creada previamente en la db
+      // const jornada = await JornadaModel.findByPk(jornadaId);
+      // if (!jornada) {
+      //   return res.status(404).json({ message: "Jornada no encontrada" });
+      // }
+
+      // Verificar si el usuario ya envió una quiniela para esta jornada? De momento lo dejo comentado
+
+      // const existingQuiniela = await QuinielaModel.findOne({
+      //   where: { userId, jornadaId },
+      // });
+      // if (existingQuiniela) {
+      //   return res
+      //     .status(400)
+      //     .json({ message: "Ya has enviado una quiniela para esta jornada." });
+      // }
+
+      // Crear la quiniela
       const quiniela = await QuinielaModel.create({
         userId,
+        jornadaId, // Asociamos la quiniela con la jornada
         homeTeam1,
         awayTeam1,
         homeScorePrediction1,
@@ -85,7 +107,6 @@ const QuinielaController = {
 
       res.status(200).json({ message: "Quiniela encontrada", data: quiniela });
     } catch (error) {
-      // Manejo de errores
       res.status(500).json({
         message: "Error al obtener la quiniela",
         error: error.message,
