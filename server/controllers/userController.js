@@ -28,9 +28,8 @@ const UserController = {
 
   async getUser(req, res) {
     try {
-      const { id } = req.params;
-
-      const user = await User.findByPk(id);
+      const { usuarioId } = req.params;
+      const user = await Usuario.findByPk(usuarioId);
       if (!user) {
         return res.status(404).json({ message: "Usuario no encontrado" });
       }
