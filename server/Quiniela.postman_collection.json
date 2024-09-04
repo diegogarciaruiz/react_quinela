@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "06f81a70-12fa-4bf4-a7ba-a5a6a1006662",
+		"name": "Quiniela",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29091976"
+	},
+	"item": [
+		{
+			"name": "Quiniela",
+			"item": [
+				{
+					"name": "Add Quiniela",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{quinielaUrl}}/api/quiniela",
+							"host": [
+								"{{quinielaUrl}}"
+							],
+							"path": [
+								"api",
+								"quiniela"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Quinielas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{quinielaUrl}}/api/quiniela/1",
+							"host": [
+								"{{quinielaUrl}}"
+							],
+							"path": [
+								"api",
+								"quiniela",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Add User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"puroMexico\",\n  \"email\": \"eldiego@diego.com\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{quinielaUrl}}/api/users",
+							"host": [
+								"{{quinielaUrl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{quinielaUrl}}/api/users/1",
+							"host": [
+								"{{quinielaUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
