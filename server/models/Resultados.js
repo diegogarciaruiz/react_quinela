@@ -7,13 +7,13 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      jornada: {
+      jornadaId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-      },
-      date: {
-        type: DataTypes.DATE,
-        allowNull: false,
+        references: {
+          model: "jornadas",
+          key: "id",
+        },
       },
       homeTeam1: DataTypes.STRING,
       awayTeam1: DataTypes.STRING,
@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Result.associate = function (models) {
-    Result.hasMany(models.Quiniela, { foreignKey: "resultId" }); // Relación con las quinielas
+    Result.belongsTo(models.Jornada, { foreignKey: "jornadaId" }); // Relación con la jornada
   };
 
   return Result;

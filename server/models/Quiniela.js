@@ -15,15 +15,14 @@ module.exports = (sequelize, DataTypes) => {
           key: "id",
         },
       },
-      resultId: {
+      jornadaId: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false, // La quiniela está asociada a una jornada específica
         references: {
-          model: "results",
+          model: "jornadas", // Relación con el modelo "Jornada"
           key: "id",
         },
       },
-      // Predicciones de los partidos
       homeTeam1: DataTypes.STRING,
       awayTeam1: DataTypes.STRING,
       homeScorePrediction1: DataTypes.INTEGER,
@@ -59,8 +58,8 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Quiniela.associate = function (models) {
-    Quiniela.belongsTo(models.User, { foreignKey: "userId" }); // Relación con el usuario que envía la quiniela
-    Quiniela.belongsTo(models.Result, { foreignKey: "resultId" }); // Relación con los resultados reales
+    Quiniela.belongsTo(models.User, { foreignKey: "userId" });
+    Quiniela.belongsTo(models.Jornada, { foreignKey: "jornadaId" }); // Relación con una jornada
   };
 
   return Quiniela;
