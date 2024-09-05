@@ -1,3 +1,4 @@
+const cors = require("cors");
 const express = require("express");
 const bodyParser = require("body-parser");
 const userRoutes = require("./router/userRouter");
@@ -5,6 +6,7 @@ const quinielaRoutes = require("./router/quinielaRouter");
 const resultadosRoutes = require("./router/resultadosRouter");
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/api", userRoutes);

@@ -44,7 +44,7 @@ const sequelize = new Sequelize(
 const Usuario = require("../models/Usuario")(sequelize, DataTypes);
 const Jornada = require("../models/Jornada")(sequelize, DataTypes);
 const Quiniela = require("../models/Quiniela")(sequelize, DataTypes);
-const Resultados = require("../models/Resultado")(sequelize, DataTypes);
+const Resultado = require("../models/Resultado")(sequelize, DataTypes);
 
 // Set up associations (if applicable)
 Usuario.associate = (models) => {
@@ -58,12 +58,12 @@ Jornada.associate = (models) => {
   Jornada.hasMany(models.Quiniela, { foreignKey: "jornadaId" });
 };
 
-// Create the models object to export
+ // Create the models object to export
 const db = {
   Usuario,
   Jornada,
   Quiniela,
-  Resultados,
+  Resultado,
   sequelize,
   Sequelize,
 };
