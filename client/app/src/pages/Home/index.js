@@ -1,11 +1,18 @@
-
 import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form'; 
+import { useForm, FormProvider,  } from 'react-hook-form'; 
 import TeamList from '../../components/organisim/TeamList';
 import submitData from '../../api/PostData';
+import fetchData from '../../api/GetData';
+import { useEffect, useState } from 'react';
+import { MyContext } from '../../context/contextProvider';
+import { useContext } from 'react';
 
 const HomePage = () => {
+  const { results, setResults } = useContext(MyContext);
   const methods = useForm(); 
+  const { setValue } = methods;
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const teams = [
     { name: 'Team A', photo: './path/to/teamA.png' },
     { name: 'Team B', photo: './path/to/teamB.png' },
@@ -19,9 +26,9 @@ const HomePage = () => {
     { name: 'Team J', photo: './path/to/teamJ.png' },
   ];
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const dataToSend = {
-      jornadaId: 1, 
+      jornadaId: 2, 
       homeTeam1: teams[0].name,
       awayTeam1: teams[1].name,
       homeScore1: parseInt(data['team-0-0']),
@@ -44,16 +51,44 @@ const HomePage = () => {
       awayScore5: parseInt(data['team-4-1']),
     };
     console.log("Datos a enviar:", dataToSend);
-     submitData(dataToSend)
-  };
+    await submitData(dataToSend);
+    const result = await fetchData(dataToSend.jornadaId);
+    setResults(result); 
 
+
+    if (result) {
+      setValue('team-0-0', result.data.homeScore1);
+      setValue('team-0-1', result.data.awayScore1);
+      setValue('team-1-0', result.data.homeScore2);
+      setValue('team-1-1', result.data.awayScore2);
+      setValue('team-2-0', result.data.homeScore3);
+      setValue('team-2-1', result.data.awayScore3);
+      setValue('team-3-0', result.data.homeScore4);
+      setValue('team-3-1', result.data.awayScore4);
+      setValue('team-4-0', result.data.homeScore5);
+      setValue('team-4-1', result.data.awayScore5);
+    }
+  }
+
+  useEffect(() => {
+    const loadData = async () => {
+      const result = await fetchData(1); 
+      setResults(result);
+    };
+
+    loadData();
+  }, []);
+  const toggleInputs = () => {
+    setIsDisabled(!isDisabled); // Cambia el estado de los inputs para habilitar o deshabilitar
+  };
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <h1>Página Principal</h1>
-        <TeamList teams={teams} />
-        <button type="submit">Enviar</button>
-      </form>
+        <TeamList teams={teams}  isDisabled={isDisabled}/>
+        <button type="button" onClick={toggleInputs}>
+          {isDisabled ? "Habilitar Edición" : "Deshabilitar Edición"}
+        </button>      </form>
     </FormProvider>
   );
 };

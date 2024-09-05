@@ -1,12 +1,14 @@
 import React, { createContext } from "react";
-const MyContext = createContext();
+import { useState } from "react";
+
+export const MyContext = createContext();
 
 export const MyContextProvider = ({ children }) => {
-    const myData = 'Hello from Context!';
+  const [results, setResults] = useState(null); 
     
     return (
-      <MyContext.Provider value={myData}>
+      <MyContext.Provider value={{ results, setResults }}>
         {children}
       </MyContext.Provider>
-    );
+    )
   };
